@@ -1,0 +1,39 @@
+None
+Wodden pickaxe
+Wodden axe
+Wodden hammer
+Stone pickaxe
+Stone axe
+Stone hamer
+Copper pickaxe
+Copper axe
+Copper hammer
+Steel pickaxe
+Steel axe
+Steel hamer
+Golden pickaxe
+Golden axe
+Golden hamer
+Goo
+Copper bar
+Steel bar
+Golden bar
+Wodden sword
+Stone sword
+Copper sword
+Iron sword
+Golden sword
+Ruby
+Coppper spear
+Steel spear
+Golden spear
+Ice gem
+Ice spear
+Misseltoe
+Healing potion
+Apple
+Old Paper
+Book
+Bone
+Skull slime
+Shuri-ken

@@ -1,0 +1,72 @@
+Air
+Dirt
+Dirt with grass
+Stone
+Grass
+Sand
+Ruby in sand
+Sandstone
+Wodden block
+Stone bricks
+Clay
+Wood
+Leaves
+Copper ore
+Iron ore
+Golden ore
+Copper block
+Iron block
+Golden block
+Bricks
+Snow block
+Ice block
+Ruby block
+Platform
+Work bench
+Glass block
+Furnace
+Painting
+Sappling
+Ice gem in snow
+Ice gem block
+Door
+Jar
+Table
+Wardrobe
+Book shelf
+Ice bricks
+Ice table
+Ice wardrobe
+Ice bookshelf
+Ice platform
+Sand table
+Sand wardrobe
+Sand bookshelf
+Sand platform
+Wodden chest
+Ice chest
+Sand chest
+Dungeon chest
+Dungeon block
+Dungeon table
+Dungeon wardrobe
+Dungeon bookshelf
+Dungeon platform
+Dirt wall
+Stone wall
+Wodden wall
+Sandstone wall
+Bricks wall
+Glass wall
+Copper wall
+Iron wall
+Golden wall
+Snow wall
+Sand wall
+Stone brick wall
+Ruby wall
+Heroglyph wall
+Ice gem wall
+Plancked stone wall
+Ice brick wall
+Dungeon wall
