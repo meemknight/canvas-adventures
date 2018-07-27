@@ -15,25 +15,25 @@ enum type
     dirt = 'a',
     grass = 'b',
     stone = 'c',
-    plants='d',
-    sand,
-    sand_ruby,
-    sandstone,
-    woodenplank,
-    stonebricks,
-    clay,
+    plants = 'd',
+    sand= 'e',
+    sand_ruby='z',
+    sandstone = 'A',
+    woodenplank ='f',
+    stonebricks='g',
+    clay = 'h',
     wood = 'w',
-    leafs,
-    copper,
-    iron='m',
-    gold='n',
-    copperblock,
-    ironblock,
+    leafs = 'j',
+    copper = 'k',
+    iron = 'm',
+    gold = 'n',
+    copperblock ='u',
+    ironblock='t',
     goldblock,
     bricks,
     snowblock,
     iceblock,
-    rubbyblock,
+    rubbyblock = 'B',
     platform,
     workbench,
     glass,
@@ -42,6 +42,29 @@ enum type
     sappling,
     snow_gem,
     ice_gem_block,
+    wodden_door,
+    bottle,
+    table,
+    wardrobe,
+    book_shelf,
+    ice_bricks,
+    ice_table,
+    ice_wardrobe,
+    ice_book_shelf,
+    ice_platform,
+    sand_table,
+    sand_wardrobe,
+    sand_book_shelf,
+    sand_platform,
+    chest,
+    ice_chest,
+    sand_chest,
+    dungeon_chest,
+    dungeon_block,
+    dungeon_table,
+    dungeon_wordrobe,
+    dungeon_bookshelf,
+    dungeon_platform,
     dirt_wall,
     stone_wall,
     wodden_wall,
@@ -56,8 +79,12 @@ enum type
     stonebricks_wall,
     rubby_wall,
     heroglyphics,
-    ice_gem_wall
-};
+    ice_gem_wall,
+    wodden_stone_wall,
+    ice_brick_wall,
+    dungeon_wall,
+    last_block
+}
 enum directions
 {
     fastUp,
@@ -78,19 +105,41 @@ namespace mapgennewseneca
         int seed = unchecked(DateTime.Now.Ticks.GetHashCode());
         int seedmul = 1;
         int val = 1;
+
+        //debug
+
+
+
+        #region RANDOM_GENERATOR
         public int RandomNumber(int min, int max)
         {
-            for (int i = 0; i < 127; i++)
+            for (int i = 0; i < 31; i++)
             {
                 seedmul++;
                 val = (seed * seedmul) % (max - min) + min;
-
             }
             seed++;
             return Math.Abs(val);
 
         }
+        #endregion
 
+        #region RANDOM_PERCENT
+        public bool getRandomPercent(int chance)
+        {
+            int result = RandomNumber(0, 100);
+            if (result < chance)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        #endregion
+
+        #region DECLARARE_VAR
         int[,] world = new int[gamelenght, gameheight];
         int[,] nummountains = new int[2, 2];
         const int gamelenght = 720;
@@ -98,17 +147,18 @@ namespace mapgennewseneca
         int grasslevel = 110;
         int maxmountainlevel = 60;
         int updatefreq = 20;
+      
 
 
 
-        //variabele gay ale lui luta     
+        //variabele gay ale lui luta  -XD   
         int height_ = 150;
         int direction_ = 0;
         int blocksUntilUpdate_ = 0;
         int stonePadding_ = 10;
-
-
-
+        #endregion
+       
+        #region FORM_1_START
         public Form1()
         {
             InitializeComponent();
@@ -116,16 +166,157 @@ namespace mapgennewseneca
             textBox3.Text = ("60");
             textBox4.Text = ("20");
         }
+        #endregion
 
-        void put_block(int x, int y, int bltype)
+        #region BLOCK_AND_PATCH_PLACERS
+        void put_block(int x, int y, int bltype) //places a single block at a given place
         {
-            if (x >= 0 && x < gamelenght && y >= 0 && x < gamelenght)
+            if (x >= 0 && x < gamelenght && y >= 0 && y < gameheight)
             {
                 world[x, y] = bltype;
             }
-        } //places a single block in  specified place
+        } 
+
+        public void putPatch(int x, int y, int size, int blocktype) //creates patches of certain blocks at a given place
+        {
+            //cadranul 1 trig
+            int patchLength = RandomNumber(size - 1, size + 2);
+            int patchHeigth = y;
+
+            while (patchLength > 0)
+            {
+                for (int i = x; i <= patchLength + x; i++)
+                {
+                    put_block(i, patchHeigth, blocktype);
+                }
+                patchHeigth--;
+                patchLength -= RandomNumber(0, 3);
+            }
+            //cadranul 2 trig
+            patchLength = RandomNumber(size - 1, size + 2);
+            patchHeigth = y;
+            while (patchLength > 0)
+            {
+                for (int i = x-patchLength; i <= x; i++)
+                {
+                    put_block(i, patchHeigth, blocktype);
+                }
+                patchHeigth--;
+                patchLength -= RandomNumber(0, 3);
+            }
+            //cadranul 3 trig
+            patchLength = RandomNumber(size - 1, size + 2);
+            patchHeigth = y;
+            while (patchLength > 0)
+            {
+                for (int i = x - patchLength; i <= x; i++)
+                {
+                    put_block(i, patchHeigth, blocktype);
+                }
+                patchHeigth++;
+                patchLength -= RandomNumber(0, 3);
+            }
+            //cadranul 4 trig
+            patchLength = RandomNumber(size - 1, size + 2);
+            patchHeigth = y;
+            while (patchLength > 0)
+            {
+                for (int i = x; i <= patchLength + x; i++)
+                {
+                    put_block(i, patchHeigth, blocktype);
+                }
+                patchHeigth++;
+                patchLength -= RandomNumber(0, 3);
+            }
+
+        }
+        public void createGrasshole(int numberOfHoles)
+        {
+            for (int i = 0; i < numberOfHoles; i++)
+            {
+                putPatch(RandomNumber(0, gamelenght), maxmountainlevel + 20, 18, (int)type.air);
+                //putPatch(RandomNumber(0, gamelenght), grasslevel - 18, 12, (int)type.air);
+
+            }
+        }
+        public void createClayPatch(int numberOfPatches)
+        {
+            for (int i = 0; i < numberOfPatches; i++)
+            {
+                int tempx = RandomNumber(0, gamelenght-1);
+                int tempy = 0;
+                for (int y = 0; world[tempx, y] != (int)type.dirt && world[tempx,y]!=(int)type.stone; y++)
+                {
+                    tempy = y;
+
+                }
+                int ypos = tempy + RandomNumber(5,15);
+                putPatch(tempx, ypos, RandomNumber(1, 3), (int)type.clay);
+                putPatch(tempx + RandomNumber(2, 4), ypos, RandomNumber(1, 3), (int)type.clay);
+            }
+        }
+        public void createStonePatch(int numberOfPatches)
+        {
+            for (int i = 0; i < numberOfPatches; i++)
+            {
+                int tempx = RandomNumber(0, gamelenght - 1);
+                int tempy = 0;
+                for (int y = 0; world[tempx, y] != (int)type.dirt && world[tempx, y] != (int)type.stone; y++)
+                {
+                    tempy = y;
+                }
+
+                int ypos = tempy + RandomNumber(2, 3);
+                putPatch(tempx, ypos, RandomNumber(1, 2), (int)type.stone);
+
+            }
+        }
+        public void createDirtPatch(int numberOfPatches)
+        {
+            for (int i = 0; i < numberOfPatches; i++)
+            {
+                putPatch(RandomNumber(0, gamelenght-1), RandomNumber(200, 270), 14, (int)type.dirt);
+            }
+        }
+        public void createIronPatch(int numberOfPatches)
+        {
+            for (int i = 0; i < numberOfPatches; i++)
+            {
+                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(200, 270), 4, (int)type.iron);
+            }
+        }
+        public void createCopperPatch(int numberOfPatches)
+        {
+            for (int i = 0; i < numberOfPatches; i++)
+            {
+                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(200, 270), 7, (int)type.copper);
+            }
+        }
+        public void createGoldPatch(int numberOfPatches)
+        {
+            for (int i = 0; i < numberOfPatches; i++)
+            {
+                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(200, 270), 2, (int)type.gold);
+            }
+        }
+        public void createRubyPatch(int numberOfPatches)
+        {
+            for (int i = 0; i < numberOfPatches; i++)
+            {
+                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(200, 270), 1, (int)type.rubbyblock);
+            }
+        }
+        public void createCavePatch(int numberOfPatches)
+        {
+            for (int i = 0; i < numberOfPatches; i++)
+            {
+                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(200, 270), 20, (int)type.air);
+            }
+        }
 
 
+
+        #endregion
         public void channgeDirection()
         {
             int result = RandomNumber(0, 100);
@@ -162,19 +353,7 @@ namespace mapgennewseneca
             blocksUntilUpdate_ = RandomNumber(0, updatefreq);
         }
 
-        public bool getRandomPercent(int chance)
-        {
-            int result = RandomNumber(0, 100);
-            if (result < chance)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
+        
 
         public void PutRow(int x)
         {
@@ -250,14 +429,14 @@ namespace mapgennewseneca
             {
                 world[x, i] = (int)type.dirt;
             }
-            for (int i= height_+stonePadding_+RandomNumber(0,3);i< gameheight;i++)
+            for (int i = height_ + stonePadding_ + RandomNumber(0, 3); i < gameheight; i++)
             {
                 world[x, i] = (int)type.stone;
             }
         }
 
 
-
+       
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -282,23 +461,6 @@ namespace mapgennewseneca
                     world[x, y] = (int)type.air;
                 }
             }
-
-            /*
-            for (int x = 0; x < gamelenght; x++)
-            {
-                for (int y = grasslevel; y < stonelevel; y++)
-                {
-                    world[x, y] = (int)type.dirt;
-                }
-            }
-            for (int x = 0; x < gamelenght; x++)
-            {
-                for (int y = stonelevel; y < gameheight; y++)
-                {
-                    world[x, y] = (int)type.stone;
-                }
-            }
-            */
             direction_ = (RandomNumber(0, 6));
             for (int i = 0; i < gamelenght; i++)
             {
@@ -306,36 +468,19 @@ namespace mapgennewseneca
             }
 
 
-            ///------------------------------------MOUNTAINS------------------------------///
-            //int yy;
-            //int xx;
-            //Random rndmnt = new Random();//am schimbat metoda de generare pozitii random pentru varfurile muntilor pentru a functiona in for loops
-            //Random tmp1 = new Random();
-            //for (int a=0; a<=nrofsountains;a++)
-            //{
-            //    yy = rndmnt.Next(maxmountainlevel, grasslevel);
-            //    xx= rndmnt.Next(0, gamelenght);
-
-            //    int h = yy;
-            //    int z = grasslevel;
-            //    while (yy != z)  
-            //    {
-            //        put_block(xx, yy,(int)type.stone);
-            //        for (int i = xx-(yy-h);i<xx; i++)
-            //        {
-            //            put_block(i,yy, (int)type.stone);
-            //        }
-            //        for (int i = xx + 1; i <= xx + (yy - h); i++)
-            //        {
-            //            put_block(i, yy, (int)type.stone);
-            //        }
 
 
-            //            yy++;
+            
+            createGrasshole(8);
+            createClayPatch(25);
+            createDirtPatch(13);
+            createStonePatch(30);
+            createIronPatch(50);
+            createCopperPatch(50);
+            createGoldPatch(50);
+            createRubyPatch(25);
+            createCavePatch(12);
 
-            //    }
-
-            //}
 
 
             for (int y = 0; y < gameheight; y++)//scrie in fisier tot
@@ -349,12 +494,6 @@ namespace mapgennewseneca
             }
             File.Close();
         }
-
-
-
-
-
-
 
 
 
