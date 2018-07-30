@@ -25,13 +25,13 @@ enum type
     wood = 'w',
     leafs = 'j',
     copper = 'k',
-    iron = 'm',
-    gold = 'n',
+    iron = 'l',
+    gold = 'm',
     copperblock ='u',
     ironblock='t',
     goldblock,
     bricks,
-    snowblock,
+    snowblock='v',
     iceblock,
     rubbyblock = 'B',
     platform,
@@ -40,8 +40,8 @@ enum type
     furnace,
     painting,
     sappling,
-    snow_gem,
-    ice_gem_block,
+    snow_gem ='D',
+    ice_gem_block='E',
     wodden_door,
     bottle,
     table,
@@ -65,24 +65,6 @@ enum type
     dungeon_wordrobe,
     dungeon_bookshelf,
     dungeon_platform,
-    dirt_wall,
-    stone_wall,
-    wodden_wall,
-    sandstone_wall,
-    brick_wall,
-    glass_wall,
-    copper_wall,
-    iron_wall,
-    gold_wall,
-    snow_wall,
-    sand_wall,
-    stonebricks_wall,
-    rubby_wall,
-    heroglyphics,
-    ice_gem_wall,
-    wodden_stone_wall,
-    ice_brick_wall,
-    dungeon_wall,
     last_block
 }
 enum wall_type
@@ -177,7 +159,7 @@ namespace mapgennewseneca
 
 
         //variabele gay ale lui luta  -XD   
-        int height_ = 150;
+        int height_ = 150;//150
         int direction_ = 0;
         int blocksUntilUpdate_ = 0;
         int stonePadding_ = 10;
@@ -304,7 +286,8 @@ namespace mapgennewseneca
 
             blocksUntilUpdate_--;
 
-            for (int i = height_; i < gameheight; i++)
+
+            for (int i = height_-7; i < gameheight; i++)
             {
                 world[x, i] = (int)type.dirt;
             }
@@ -312,7 +295,10 @@ namespace mapgennewseneca
             {
                 world[x, i] = (int)type.stone;
             }
+
         }
+
+
         public void PutWalls()
         {
             for (int y=0;y<gameheight;y++)
@@ -329,18 +315,44 @@ namespace mapgennewseneca
                     {
                         walls[x,y] = (int)wall_type.stone_wall;
                     }
+                    if (world[x, y] == (int)type.sand)
+                    {
+                        walls[x, y] = (int)wall_type.sand_wall;
+                    }
+                    else
+                    if (world[x, y] == (int)type.snowblock)
+                    {
+                        walls[x, y] = (int)wall_type.snow_wall;
+                    }
                     else
                     if (world[x, y] == (int)type.air)
                     {
                         walls[x, y] = (int)wall_type.air;
                     }
-
-
                 }
                      
+            }
+
+
         }
+        public void PutGrass()
+        {
+            for (int x = 0; x < gamelenght - 1; x++)
+            {
+                for (int y = 0; y < gameheight  - 1; y++)
+                {
+                    if (world[x, y] == (int)type.dirt)
+                    {
+                        world[x, y] = (int)type.grass;
+                        break;
+                    }
+                    else
+                    {
 
+                    }
+                }
 
+            }
         }
         #endregion
 
@@ -449,28 +461,21 @@ namespace mapgennewseneca
         {
             for (int i = 0; i < numberOfPatches; i++)
             {
-                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(200, 270), 4, (int)type.iron);
+                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(200, 270), RandomNumber(2,4), (int)type.iron);
             }
         }
         public void createCopperPatch(int numberOfPatches)
         {
             for (int i = 0; i < numberOfPatches; i++)
             {
-                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(200, 270), 7, (int)type.copper);
+                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(200, gameheight), RandomNumber(2,3), (int)type.copper);
             }
         }
         public void createGoldPatch(int numberOfPatches)
         {
             for (int i = 0; i < numberOfPatches; i++)
             {
-                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(200, 270), 2, (int)type.gold);
-            }
-        }
-        public void createRubyPatch(int numberOfPatches)
-        {
-            for (int i = 0; i < numberOfPatches; i++)
-            {
-                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(200, 270), 1, (int)type.rubbyblock);
+                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(250, gameheight), RandomNumber(1, 3), (int)type.gold);
             }
         }
         public void createCavePatch(int numberOfPatches)
@@ -485,9 +490,86 @@ namespace mapgennewseneca
 
         #endregion
 
+        #region BIOME_MANAGER
+        public void Biomize()
+        {
+            int LR = RandomNumber(0, 2);
+            int snowStart = 0;
+            int snowEnd = 0;
+            int desertStart = 0;
+            int desertEnd = 0;
+           
+            if (LR==0)
+            {
+                label3.Text = "Snow Left / Desert Right";
+                snowStart = 150;
+                snowEnd = 300;
+                desertStart = 540;
+                desertEnd = 690;
+            }
+            else
+            {
+                label3.Text = "Desert Left / Snow Right ";
+                snowStart = 540;
+                snowEnd = 690;
+                desertStart = 150;
+                desertEnd = 300;
+            }
+
+            for (int y = 0; y < gameheight - 1; y++)
+            {
+                for (int x = snowStart; x < snowEnd - 1; x++)
+                {
+                    if (world[x, y] == (int)type.dirt ||world[x,y]==(int)type.grass)
+                    {
+                        world[x, y] = (int)type.snowblock;  
+                    }
+                    else
+                    if (world[x, y] == (int)type.clay)
+                    {
+                        world[x, y] = (int)type.iceblock;
+                    }
+                    else
+                    if(world[x,y]==(int)type.copper)
+                    {
+                        world[x, y] = (int)type.ice_gem_block;
+                    }
+                    else
+                    {
+
+                    }
+
+                }
+
+            }
+            for (int y = 0; y < gameheight - 1; y++)
+            {
+                for (int x = desertStart; x < desertEnd - 1; x++)
+                {
+                    if (world[x, y] == (int)type.dirt|| world[x, y] == (int)type.grass)
+                    {
+                        world[x, y] = (int)type.sand;
+                    }
+                    if (world[x, y] == (int)type.copper)
+                    {
+                        world[x, y] = (int)type.sand_ruby;
+                    }
+                    else
+                    {
+
+                    }
+                }
+
+            }
+        }
+
+
+
+        #endregion
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
             int grasslvlint = Convert.ToInt32(textBox1.Text);//converts string value of textBox1 to int
             int maxmountainlvlint = Convert.ToInt32(textBox3.Text);//converts string value of textBox3 to int
             int updatefreqint = Convert.ToInt32(textBox4.Text);//converts string value of textBox4 to int
@@ -505,16 +587,17 @@ namespace mapgennewseneca
                 WallsFile =  new StreamWriter("map1\\walls.txt");
             }
             
-
             if(radioButton2.Checked)
             {
                 MapFile = new StreamWriter("map2\\map.txt");
                 WallsFile = new StreamWriter("map2\\walls.txt");
+                //MapFile = new StreamWriter("C:\\Users\\david\\Documents\\GitHub\\Canvas-Adventures\\Canvas Adventures 0.14\\bin\\Release\\map2\\map.txt");
+                //WallsFile = new StreamWriter("C:\\Users\\david\\Documents\\GitHub\\Canvas-Adventures\\Canvas Adventures 0.14\\bin\\Release\\map2\\walls.txt");
             }
             if(radioButton3.Checked)
             {
-               MapFile = new StreamWriter("map3\\map3.txt");
-               WallsFile = new StreamWriter("map3\\walls3.txt");
+               MapFile = new StreamWriter("map3\\map.txt");
+               WallsFile = new StreamWriter("map3\\walls.txt");
             }
             
             label1.Text = (RandomNumber(0, 100).ToString());
@@ -532,45 +615,55 @@ namespace mapgennewseneca
             {
                 PutRow(i);
             }
-
-            
-            
-
-
-            
             createGrasshole(8);
             createClayPatch(25);
             createDirtPatch(13);
             createStonePatch(30);
             createIronPatch(50);
-            createCopperPatch(50);
-            createGoldPatch(50);
-            createRubyPatch(25);
+            createCopperPatch(60);
+            createGoldPatch(60);
+            Biomize();
+            PutGrass();
+            PutWalls();
             createCavePatch(12);
 
-            PutWalls();
-            for (int y = 0; y < gameheight; y++)//scrie in fisierul walls.txt tot
+
+            if (radioButton1.Checked || radioButton2.Checked || radioButton3.Checked)
             {
-                for (int x = 0; x < gamelenght; x++)
-
+                #region SE_SCRIE_IN_FISIERE
+                for (int y = 0; y < gameheight; y++)//scrie in fisierul walls.txt tot
                 {
-                    WallsFile.Write((Char)walls[x, y]);
+                    for (int x = 0; x < gamelenght; x++)
+
+                    {
+                        WallsFile.Write((Char)walls[x, y]);
+                    }
+                    WallsFile.Write("\n");
                 }
-                WallsFile.Write("\n");
+                WallsFile.Close();
+                for (int y = 0; y < gameheight; y++)//scrie in fisierul world.txt tot
+                {
+                    for (int x = 0; x < gamelenght; x++)
+
+                    {
+                        MapFile.Write((Char)world[x, y]);
+                    }
+                    MapFile.Write("\n");
+                }
+                MapFile.Close();
+                label6.Text = "World Generated";
+                #endregion
+                
+                //System.Threading.Thread.Sleep(1000);
+                //Application.Exit();                
+
             }
-            WallsFile.Close();
-            for (int y = 0; y < gameheight; y++)//scrie in fisierul world.txt tot
+            else
             {
-                for (int x = 0; x < gamelenght; x++)
-
-                {
-                    MapFile.Write((Char)world[x, y]);
-                }
-                MapFile.Write("\n");
+                label6.Text = "Please select a world slot";
             }
-            MapFile.Close();
 
-            
+
         }
 
 
