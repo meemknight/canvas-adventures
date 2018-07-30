@@ -169,9 +169,7 @@ namespace mapgennewseneca
         public Form1()
         {
             InitializeComponent();
-            textBox1.Text = ("110");
-            textBox3.Text = ("60");
-            textBox4.Text = ("20");
+
         }
         #endregion
 
@@ -569,10 +567,34 @@ namespace mapgennewseneca
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
-            int grasslvlint = Convert.ToInt32(textBox1.Text);//converts string value of textBox1 to int
-            int maxmountainlvlint = Convert.ToInt32(textBox3.Text);//converts string value of textBox3 to int
-            int updatefreqint = Convert.ToInt32(textBox4.Text);//converts string value of textBox4 to int
+
+            int grasslvlint = 110;
+            int maxmountainlvlint = 60;
+            int updatefreqint = 20;
+
+            if (comboBox1.SelectedIndex == 0)//Rough
+            {
+                maxmountainlvlint = 60;
+                updatefreqint = 80;
+            }
+            else
+            if(comboBox1.SelectedIndex ==1)//normal
+            {
+                maxmountainlvlint = 60;
+                updatefreqint = 20;
+            }
+            if (comboBox1.SelectedIndex == 2)//smooth
+            {
+                maxmountainlvlint = 70;
+                updatefreqint = 8;
+            }
+            else
+            {
+                maxmountainlvlint = 60;
+                updatefreqint = 20;
+            }
+            //int maxmountainlvlint = Convert.ToInt32(textBox3.Text);//converts string value of textBox3 to int
+            //int updatefreqint = Convert.ToInt32(textBox4.Text);//converts string value of textBox4 to int
 
             grasslevel = grasslvlint;
             maxmountainlevel = maxmountainlvlint;
@@ -651,11 +673,12 @@ namespace mapgennewseneca
                     MapFile.Write("\n");
                 }
                 MapFile.Close();
-                label6.Text = "World Generated";
+                label6.Text = "World Generated - This window will close in 3 seconds";
                 #endregion
                 
-                //System.Threading.Thread.Sleep(1000);
-                //Application.Exit();                
+                
+                System.Threading.Thread.Sleep(3000);
+                Application.Exit();                
 
             }
             else
@@ -673,6 +696,16 @@ namespace mapgennewseneca
 
         }
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+ 
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
