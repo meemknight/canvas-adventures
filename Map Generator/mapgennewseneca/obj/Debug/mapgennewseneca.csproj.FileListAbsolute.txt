@@ -28,3 +28,13 @@ C:\Users\david\Documents\GitHub\Canvas-Adventures\_MAP GENERATOR\mapgennewseneca
 C:\Users\david\Documents\GitHub\Canvas-Adventures\_MAP GENERATOR\mapgennewseneca\bin\Debug\mapgennewseneca.exe.config
 C:\Users\david\Documents\GitHub\Canvas-Adventures\_MAP GENERATOR\mapgennewseneca\bin\Debug\mapgennewseneca.exe
 C:\Users\david\Documents\GitHub\Canvas-Adventures\_MAP GENERATOR\mapgennewseneca\bin\Debug\mapgennewseneca.pdb
+C:\Users\david\Documents\GitHub\Canvas-Adventures\Map Generator\mapgennewseneca\bin\Debug\mapgennewseneca.exe.config
+C:\Users\david\Documents\GitHub\Canvas-Adventures\Map Generator\mapgennewseneca\bin\Debug\mapgennewseneca.exe
+C:\Users\david\Documents\GitHub\Canvas-Adventures\Map Generator\mapgennewseneca\bin\Debug\mapgennewseneca.pdb
+C:\Users\david\Documents\GitHub\Canvas-Adventures\Map Generator\mapgennewseneca\obj\Debug\mapgennewseneca.csprojResolveAssemblyReference.cache
+C:\Users\david\Documents\GitHub\Canvas-Adventures\Map Generator\mapgennewseneca\obj\Debug\mapgennewseneca.Form1.resources
+C:\Users\david\Documents\GitHub\Canvas-Adventures\Map Generator\mapgennewseneca\obj\Debug\mapgennewseneca.Properties.Resources.resources
+C:\Users\david\Documents\GitHub\Canvas-Adventures\Map Generator\mapgennewseneca\obj\Debug\mapgennewseneca.csproj.GenerateResource.cache
+C:\Users\david\Documents\GitHub\Canvas-Adventures\Map Generator\mapgennewseneca\obj\Debug\mapgennewseneca.csproj.CoreCompileInputs.cache
+C:\Users\david\Documents\GitHub\Canvas-Adventures\Map Generator\mapgennewseneca\obj\Debug\mapgennewseneca.exe
+C:\Users\david\Documents\GitHub\Canvas-Adventures\Map Generator\mapgennewseneca\obj\Debug\mapgennewseneca.pdb

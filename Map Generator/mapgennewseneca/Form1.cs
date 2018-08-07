@@ -41,7 +41,7 @@ enum type
     painting,
     sappling,
     snow_gem ='D',
-    ice_gem_block='E',
+    ice_gem_block='D',
     wodden_door,
     bottle,
     table,
@@ -108,13 +108,66 @@ namespace mapgennewseneca
     {
         StreamWriter MapFile;
         StreamWriter WallsFile;
+        StreamWriter StatsFile;
         int seed = unchecked(DateTime.Now.Ticks.GetHashCode());
         int seedmul = 1;
         int val = 1;
+        int xposition = gamelenght / 2;
+        int yposition = 1;
 
-        //debug
 
+        public int SpawnPointYAxis()
+        {
+            while(true)
+            {
+                if (world[xposition,yposition] != (int)type.air)
+                {
 
+                    break;
+                }
+                yposition++;
+            }
+            yposition -= 2;
+            
+            return  (yposition * 32)- (5*32);
+        }
+
+        int[] playerstatsvalue = new int[99]
+    {         12800,0,12800,0,100,1,0,0,0,
+              //xpos,ypos, xpawn,yspawn
+              0,20,1,
+              0,1,1,
+              0,2,1,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+              1,0,0,
+      };
+
+        
 
         #region RANDOM_GENERATOR
         public int RandomNumber(int min, int max)
@@ -412,7 +465,7 @@ namespace mapgennewseneca
         {
             for (int i = 0; i < numberOfHoles; i++)
             {
-                putPatch(RandomNumber(0, gamelenght), maxmountainlevel + 20, 18, (int)type.air);
+                putPatch(RandomNumber(0, gamelenght), maxmountainlevel + 20, RandomNumber(5,12), (int)type.air);
 
             }
         }
@@ -459,21 +512,21 @@ namespace mapgennewseneca
         {
             for (int i = 0; i < numberOfPatches; i++)
             {
-                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(200, 270), RandomNumber(2,4), (int)type.iron);
+                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(250, 290), RandomNumber(2,4), (int)type.iron);
             }
         }
         public void createCopperPatch(int numberOfPatches)
         {
             for (int i = 0; i < numberOfPatches; i++)
             {
-                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(200, gameheight), RandomNumber(2,3), (int)type.copper);
+                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(250, gameheight), RandomNumber(2,3), (int)type.copper);
             }
         }
         public void createGoldPatch(int numberOfPatches)
         {
             for (int i = 0; i < numberOfPatches; i++)
             {
-                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(250, gameheight), RandomNumber(1, 3), (int)type.gold);
+                putPatch(RandomNumber(0, gamelenght - 1), RandomNumber(260, gameheight), RandomNumber(1, 3), (int)type.gold);
             }
         }
         public void createCavePatch(int numberOfPatches)
@@ -565,12 +618,40 @@ namespace mapgennewseneca
 
         #endregion
 
+        #region StatsFileWriter
+        public void statsFileWriter()
+        {
+            int stfilecharcounter = 0;
+            for (int i = 1; i <= 9; i++)
+            {
+                StatsFile.Write(playerstatsvalue[stfilecharcounter]);
+                StatsFile.Write(' ');
+                stfilecharcounter++;
+            }
+            StatsFile.Write("\n");
+            for (int i = 1; i <= 30; i++)
+            {
+                for (int j = 1; j <= 3; j++)
+                {
+                    StatsFile.Write(playerstatsvalue[stfilecharcounter]);
+                    StatsFile.Write(' ');
+                    stfilecharcounter++;
+                }
+                StatsFile.Write("\n");
+            }
+            StatsFile.Close();
+        }
+        #endregion
+
+
         private void button1_Click(object sender, EventArgs e)
         {
 
             int grasslvlint = 110;
             int maxmountainlvlint = 60;
             int updatefreqint = 20;
+
+
 
             if (comboBox1.SelectedIndex == 0)//Rough
             {
@@ -607,21 +688,26 @@ namespace mapgennewseneca
             {
                 MapFile =  new StreamWriter("map1\\map.txt");
                 WallsFile =  new StreamWriter("map1\\walls.txt");
+                StatsFile = new StreamWriter("map1\\playerstats.txt");
             }
             
             if(radioButton2.Checked)
             {
-                MapFile = new StreamWriter("map2\\map.txt");
-                WallsFile = new StreamWriter("map2\\walls.txt");
-                //MapFile = new StreamWriter("C:\\Users\\david\\Documents\\GitHub\\Canvas-Adventures\\Canvas Adventures 0.14\\bin\\Release\\map2\\map.txt");
-                //WallsFile = new StreamWriter("C:\\Users\\david\\Documents\\GitHub\\Canvas-Adventures\\Canvas Adventures 0.14\\bin\\Release\\map2\\walls.txt");
+                //MapFile = new StreamWriter("map2\\map.txt");
+                //WallsFile = new StreamWriter("map2\\walls.txt");
+                //StatsFile = new StreamWriter("map2\\playerstats.txt");
+                MapFile = new StreamWriter("C:\\Users\\david\\Documents\\GitHub\\Canvas-Adventures\\Canvas Adventures 0.14\\bin\\Release\\map2\\map.txt");
+                WallsFile = new StreamWriter("C:\\Users\\david\\Documents\\GitHub\\Canvas-Adventures\\Canvas Adventures 0.14\\bin\\Release\\map2\\walls.txt");
+                StatsFile = new StreamWriter("C:\\Users\\david\\Documents\\GitHub\\Canvas-Adventures\\Canvas Adventures 0.14\\bin\\Release\\map2\\playerstats.txt");
             }
-            if(radioButton3.Checked)
+            if (radioButton3.Checked)
             {
                MapFile = new StreamWriter("map3\\map.txt");
                WallsFile = new StreamWriter("map3\\walls.txt");
+               StatsFile = new StreamWriter("map3\\playerstats.txt");
             }
             
+            //debug counter
             label1.Text = (RandomNumber(0, 100).ToString());
 
 
@@ -650,9 +736,16 @@ namespace mapgennewseneca
             createCavePatch(12);
 
 
+            playerstatsvalue[1] = SpawnPointYAxis();
+            playerstatsvalue[3] = SpawnPointYAxis();
+            label5.Text = SpawnPointYAxis().ToString();
+
             if (radioButton1.Checked || radioButton2.Checked || radioButton3.Checked)
             {
                 #region SE_SCRIE_IN_FISIERE
+
+                statsFileWriter();
+
                 for (int y = 0; y < gameheight; y++)//scrie in fisierul walls.txt tot
                 {
                     for (int x = 0; x < gamelenght; x++)
@@ -673,11 +766,10 @@ namespace mapgennewseneca
                     MapFile.Write("\n");
                 }
                 MapFile.Close();
-                label6.Text = "World Generated - This window will close in 3 seconds";
+                label6.Text = "World Generated";
                 #endregion
                 
                 
-                System.Threading.Thread.Sleep(3000);
                 Application.Exit();                
 
             }
@@ -691,6 +783,16 @@ namespace mapgennewseneca
 
 
 
+
+
+
+
+
+
+
+
+
+        
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
@@ -699,15 +801,14 @@ namespace mapgennewseneca
         {
 
         }
- 
         private void label2_Click(object sender, EventArgs e)
         {
 
         }
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
+        
     }
 }
