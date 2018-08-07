@@ -129,7 +129,7 @@ namespace mapgennewseneca
             }
             yposition -= 2;
             
-            return  (yposition * 32)- (5*32);
+            return  (yposition * 32)- (2*32);
         }
 
         int[] playerstatsvalue = new int[99]
